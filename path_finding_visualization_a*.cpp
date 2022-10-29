@@ -258,8 +258,6 @@ void initialize()
 
 int main()
 {
-    string cmd;
-    cin>>cmd;
     initialize();
     sfml();
 return 0;
