@@ -80,69 +80,6 @@ bool slide(int posa,int posb,int posa2,int posb2)
 }
 
 
-//bfs
-struct record_point
-{
-  int a,b;
-};
-vector<record_point> v;
-void back_path(int posa,int posb)
-{
-    if(posa==starta&&posb==startb)
-    {
-        a[posa][posb].id=5;
-        print_map();
-        return;
-    }
-    usleep(rate*10);
-    print_map();
-    a[posa][posb].id=3;//最短路徑
-    back_path(a[posa][posb].prev_a,a[posa][posb].prev_b);
-}
-void bfs(int posa,int posb)
-{
-    int i,posa2,posb2;
-    
-    if(v.empty()&&!(posa==starta&&posb==startb))
-    {
-        cout<<"no solution"<<endl;
-        return;
-    }
-    
-    for(i=0;i<8;i++)
-    {
-        if(i%2==0)print_map();
-        
-        if(slide(posa,posb,posa+dir[i][0],posb+dir[i][1])&&i>3)continue;
-        
-        if(a[posa+dir[i][0]][posb+dir[i][1]].id==1||a[posa+dir[i][0]][posb+dir[i][1]].id==4)
-        {
-            if(posa+dir[i][0]==enda&&posb+dir[i][1]==endb)
-            {
-                back_path(posa,posb);
-                return;
-            }
-            
-            a[posa+dir[i][0]][posb+dir[i][1]].id=2;
-            a[posa+dir[i][0]][posb+dir[i][1]].prev_a=posa;
-            a[posa+dir[i][0]][posb+dir[i][1]].prev_b=posb;
-            record_point temp;
-            temp.a=posa+dir[i][0];
-            temp.b=posb+dir[i][1];
-            v.push_back(temp);
-        }
-    }
-    posa2=v.begin()->a;
-    posb2=v.begin()->b;
-    v.erase(v.begin());
-    bfs(posa2,posb2);
-    
-}
-
-
-
-
-
 struct point_a_star
 {
     int g,h,f,a,b;
@@ -232,13 +169,7 @@ void a_star(int posa,int posb)
     open_list.pop();
     a_star(temptop,temptop2);
 }
-
-
-
-
-
-
-void sfml(char cmd)
+void sfml()
 {
     int pa,pb;
     bool isstart=false,isend=false,edit=true;
@@ -293,8 +224,7 @@ void sfml(char cmd)
             }
             else if(Keyboard::isKeyPressed(Keyboard::Space))
             {
-                if(cmd=='a')a_star(starta,startb);
-                else bfs(starta, startb);
+                a_star(starta,startb);
                 edit=false;
             }
         }
@@ -328,9 +258,9 @@ void initialize()
 
 int main()
 {
-    char cmd;
+    string cmd;
     cin>>cmd;
     initialize();
-    sfml(cmd);
+    sfml();
 return 0;
 }
