@@ -211,9 +211,6 @@ void initialize()
         {
             a[i][k].id=1;
             a[i][k].trigger=-10;
-            node[i][k].f=0;
-            node[i][k].g=0;
-            node[i][k].h=0;
         }
     }
     for(i=0;i<max;i++)
